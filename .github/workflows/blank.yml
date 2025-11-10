@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # (1) Mostra o conteúdo do diretório atual
+      - name: Show files
+        run: ls -la
+
+      # (2) Extrai um arquivo ZIP
+      - name: Extract ZIP file
+        run: |
+          unzip discord-bot.zip
+
+      # (3) Mostra o resultado
+      - name: Show extracted files
+        run: ls -la
