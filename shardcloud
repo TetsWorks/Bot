@@ -1,0 +1,6 @@
+DISPLAY_NAME=Bot
+MAIN=src/index.ts
+MEMORY=1024
+VERSION=recommended
+LANGUAGE=node
+APPID=0db783ef-fc02-470d-bc76-20207e2c9942
