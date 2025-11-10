@@ -1,28 +1,40 @@
-name: CI
+name: Extract ZIP and Commit
 
 on:
+  workflow_dispatch: # permite rodar manualmente
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches: [ "main" ] # ou troque pelo nome da sua branch
 
 jobs:
-  build:
+  unzip_and_commit:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Baixa o repositório atual
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # (1) Mostra o conteúdo do diretório atual
-      - name: Show files
+      # Mostra os arquivos atuais
+      - name: Show repo files
         run: ls -la
 
-      # (2) Extrai um arquivo ZIP
-      - name: Extract ZIP file
+      # Extrai o ZIP (sobrescreve arquivos existentes)
+      - name: Extract ZIP
+        run: unzip -o discord-bot.zip
+
+      # Remove o ZIP original (opcional)
+      - name: Remove ZIP file
+        run: rm -f discord-bot.zip
+
+      # Configura o Git para commit automático
+      - name: Configure Git
         run: |
-          unzip discord-bot.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # (3) Mostra o resultado
-      - name: Show extracted files
-        run: ls -la
+      # Adiciona, faz commit e push dos arquivos extraídos
+      - name: Commit extracted files
+        run: |
+          git add .
+          git commit -m "Extracted and added files from discord-bot.zip" || echo "No changes to commit"
+          git push
