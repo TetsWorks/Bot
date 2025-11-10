@@ -2,25 +2,32 @@ import { SlashCommandBuilder, type ChatInputCommandInteraction, EmbedBuilder } f
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("sobre")
-    .setDescription("Informações sobre o TetsWorks")
+    .setName("server")
+    .setDescription("Informações sobre o servidor")
     .setDescriptionLocalizations({
-      "en-US": "Information about TetsWorks",
+      "en-US": "Server information",
     }),
   async execute(interaction: ChatInputCommandInteraction) {
+    const { guild } = interaction
+    if (!guild) return
+
     const embed = new EmbedBuilder()
-      .setColor(0x8b00ff)
-      .setTitle("🎮 TetsWorks Game Studio")
-      .setDescription("Estúdio independente de desenvolvimento de jogos e aplicativos mobile.")
-      .setThumbnail("https://placeholder.svg?height=128&width=128&query=tetsworks+logo")
+      .setColor(0x00d9ff)
+      .setTitle(`📊 ${guild.name}`)
+      // ✅ só adiciona o thumbnail se o servidor tiver ícone
       .addFields(
-        { name: "🌐 Website", value: "[tetsworks.vercel.app](https://tetsworks.vercel.app)", inline: true },
-        { name: "💻 GitHub", value: "[github.com/TetsWorks](https://github.com/TetsWorks)", inline: true },
-        { name: "🎯 Foco", value: "Jogos mobile de alta qualidade", inline: false },
-        { name: "🚀 Projetos", value: "Runner Game, Hollow Knight Port, Silksong e muito mais!", inline: false },
+        { name: "👥 Membros", value: guild.memberCount.toString(), inline: true },
+        { name: "📅 Criado em", value: `<t:${Math.floor(guild.createdTimestamp / 1000)}:D>`, inline: true },
+        { name: "👑 Dono", value: `<@${guild.ownerId}>`, inline: true },
+        { name: "💬 Canais", value: guild.channels.cache.size.toString(), inline: true },
+        { name: "😀 Emojis", value: guild.emojis.cache.size.toString(), inline: true },
+        { name: "🎭 Cargos", value: guild.roles.cache.size.toString(), inline: true },
       )
-      .setFooter({ text: "TetsWorks © 2025", iconURL: interaction.client.user?.displayAvatarURL() })
+      .setFooter({ text: `ID: ${guild.id}` })
       .setTimestamp()
+
+    const icon = guild.iconURL({ size: 1024 })
+    if (icon) embed.setThumbnail(icon) // <-- aqui o ícone é aplicado se existir
 
     await interaction.reply({ embeds: [embed] })
   },
