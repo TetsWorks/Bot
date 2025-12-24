@@ -254,9 +254,12 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ---
 
 <div align="center">
+Autor
+
+Criado e mantido por **Brunim757**  
+Organização: **TetsWorks**
+
 
 Feito com 💜 por **TetsWorks Game Studio**
-
-[Website](https://tetsworks.com) • [Discord](https://discord.gg/tetsworks) • [GitHub](https://github.com/TetsWorks)
-
+---
 </div>
